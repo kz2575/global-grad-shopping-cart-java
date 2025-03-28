@@ -47,6 +47,52 @@ public class ShoppingCartTest {
     }
 
     @Test
+    public void shouldCalculatePriceFor20PercentDiscount() {
+        List<Product> products = List.of(new Product(PRICE, "DIS_20_ABCD", PRODUCT));
+        ShoppingCart cart = new ShoppingCart(customer, products);
+        Order order = cart.checkout();
+
+        assertEquals(80.0, order.getTotalPrice(), 0.0);
+    }
+
+
+    @Test
+    public void shouldCalculateLoyaltyPointsFor20PercentDiscount() {
+        List<Product> products = List.of(new Product(PRICE, "DIS_20_ABCD", PRODUCT));
+        ShoppingCart cart = new ShoppingCart(customer, products);
+        Order order = cart.checkout();
+
+        assertEquals(5, order.getLoyaltyPoints());
+    }
+
+    @Test
+    public void shouldCalculateLoyaltyPointsFor20PercentDiscountif39() {
+        List<Product> products = List.of(new Product(39, "DIS_20_ABCD", PRODUCT));
+        ShoppingCart cart = new ShoppingCart(customer, products);
+        Order order = cart.checkout();
+
+        assertEquals(1, order.getLoyaltyPoints());
+    }
+
+    @Test
+    public void shouldCalculateLoyaltyPointsForNot20PercentDiscount() {
+        List<Product> products = List.of(new Product(PRICE, "PRODUCT_DIS_20_ABCD", PRODUCT));
+        ShoppingCart cart = new ShoppingCart(customer, products);
+        Order order = cart.checkout();
+
+        assertEquals(20, order.getLoyaltyPoints());
+    }
+
+    @Test
+    public void shouldCalculatePriceForNot20PercentDiscount() {
+        List<Product> products = List.of(new Product(PRICE, "PRODUCT_DIS_20_ABCD", PRODUCT));
+        ShoppingCart cart = new ShoppingCart(customer, products);
+        Order order = cart.checkout();
+
+        assertEquals(100, order.getTotalPrice(), 0.0);
+    }
+
+    @Test
     public void shouldCalculateLoyaltyPointsFor10PercentDiscount() {
         List<Product> products = List.of(new Product(PRICE, "DIS_10_ABCD", PRODUCT));
         ShoppingCart cart = new ShoppingCart(customer, products);
